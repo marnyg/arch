@@ -25,5 +25,10 @@ grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck  &&
 grub-mkconfig -o /boot/grub/grub.cfg &&
 
 passwd &&
-exit
 
+##make new user
+useradd -mg users -G wheel,storage,power -s /bin/bash mar
+passwd mar
+chage -d 0 mar
+pacman -S feh neovim compton sudo git 
+echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers

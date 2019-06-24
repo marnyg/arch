@@ -3,7 +3,7 @@
 ### set timezone info
 ln -sf /usr/share/zoneinfo/Europe/Oslo /etc/localtime
 hwclock --systohc
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
@@ -14,14 +14,16 @@ echo "::1"      localhost >> /etc/hosts
 echo "127.0.1.1	MyArch.localdomain MyArch" >> /etc/hosts
 
 ###insatll bootloader/networkmanager
-pacman -S grub efibootmgr dofstools os-prober mtools networkmanager 
+pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager &&
 
 ###enable networkmanager
-systemctl enable NetworkManager 
+systemctl enable NetworkManager &&
 
 ##install grub (efi)
 ##remember aspire boot reqires spesial folder in /boot
-grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck 
-grub-mkconfig -o /boot/grub/grub.cfg 
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck  &&
+grub-mkconfig -o /boot/grub/grub.cfg &&
 
-passwd
+passwd &&
+exit
+

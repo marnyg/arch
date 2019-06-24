@@ -10,6 +10,7 @@ timedatectl set-ntp true
 mkswap /dev/sda2
 swapon /dev/sda2
 mkfs.ext4 /dev/sda3
+mkfs.vfat -F32 /dev/sda1
 
 
 ##Mount partitons
@@ -20,7 +21,7 @@ mount /dev/sda1 /mnt/boot/efi
 
 ##pacstrap
 ## Norway
-echo "Server = http://mirror.neuf.no/archlinux/$repo/os/$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
+echo "Server = http://mirror.neuf.no/archlinux/\$repo/os/\$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
 pacstrap /mnt base base-devel vim
 
 ##GenfsTab

@@ -19,7 +19,8 @@ mkdir /mnt/boot/efi
 mount /dev/sda1 /mnt/boot/efi
 
 ##pacstrap
-echo "Server = http://mirror.archlinux.no/$repo/os/$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
+## Norway
+echo "Server = http://mirror.neuf.no/archlinux/$repo/os/$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
 pacstrap /mnt base base-devel vim
 
 ##GenfsTab

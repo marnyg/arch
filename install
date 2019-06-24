@@ -1,29 +1,32 @@
 #! /bin/bash
 
+###partition drive
+#
+#
+
+###Format drive partittions
+#
 timedatectl set-ntp true
 mkswap /dev/sda2
 swapon /dev/sda2
 mkfs.ext4 /dev/sda3
+
+
+##Mount partitons
 mount /dev/sda3 /mnt
 mkdir /mnt/boot
 mkdir /mnt/boot/efi
-mount /dev/sda3 /mnt/boot/efi
+mount /dev/sda1 /mnt/boot/efi
+
+##pacstrap
 echo "Server = http://mirror.archlinux.no/$repo/os/$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
 pacstrap /mnt base base-devel vim
-genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-ln -sf /usr/share/zoneinfo/Europe/Oslo /etc/localtime
-hwclock --systohc
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
-echo "MyArch" >> /etc/hostname
-echo "127.0.0.1	localhost" >> /etc/hosts
-echo "::1"      localhost >> /etc/hosts
-echo "127.0.1.1	MyArch.localdomain MyArch" >> /etc/hosts
-pacmann -S grub efibootmgr dosftools os-prober mtools networkmanager 
-systemctl enable NetworkManager 
-grub-mkconfig -o /boot/grub/grub.cfg 
-grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck 
 
-passwd
+##GenfsTab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+##copy script part 2 into /mnt
+cp part2 /mnt/part2
+
+arch-chroot /mnt ./part2
+

@@ -41,7 +41,7 @@ git clone https://github.com/marnyg/dwm2.git
 git clone https://github.com/marnyg/st2.git
 git clone https://github.com/marnyg/dotfilesArch.git
 
-pacman -S dmenu freetype2 libx11 libxft libxinerama libxext xorg-fonts-misc xorg
+pacman -S dmenu freetype2 libx11 libxft libxinerama libxext xorg-fonts-misc xorg ranger
 cd st2/
 make 
 make install

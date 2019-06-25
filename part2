@@ -32,3 +32,22 @@ passwd mar
 chage -d 0 mar
 pacman -S feh neovim compton sudo git 
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+
+cd /home/mar
+mkdir git
+cd git
+
+git clone https://github.com/marnyg/dwm2.git
+git clone https://github.com/marnyg/st2.git
+git clone https://github.com/marnyg/dotfilesArch.git
+
+pacman -S dmenu freetype2 libx11 libxft libxinerama libxext xorg-fonts-misc xorg
+cd st2/
+make 
+make install
+cd ../dwm2
+make 
+make install
+cd ../dotfilesArch
+./initScript
+

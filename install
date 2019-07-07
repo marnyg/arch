@@ -1,23 +1,57 @@
 #! /bin/bash
 
+
+if [[ $1 != "--disk" && -z $2 ]]; then
+    echo which disk, use this format:
+    echo ./install --disk $2
+    exit 1
+fi
+
+if [ ! -b "$2" ]; then
+    echo $2 disk does not exit
+    exit 1
+fi
+
+timedatectl set-ntp true
+
 ###partition drive
 #
-#
+(
+echo g # Create a new empty partition table
+echo n # Add a new partition
+echo 1 # Partition number
+echo   # First sector (Accept default: 1)
+echo +512M # size of partition
+echo n # Add a new partition
+echo 2 # Partition number
+echo   # First sector (Accept default: 1)
+echo +10G # size of partition
+echo n # Add a new partition
+echo 3 # Partition number
+echo   # First sector (Accept default: 1)
+echo   # size of partition (Accept default: 1)
+echo t # set type of partition 
+echo 1 # select partition 1
+echo 1 # set type to efi partition 
+
+echo w # Write changes
+) | fdisk $2
 
 ###Format drive partittions
 #
-timedatectl set-ntp true
-mkswap /dev/sda2
-swapon /dev/sda2
-mkfs.ext4 /dev/sda3
-mkfs.vfat -F32 /dev/sda1
+echo creating file formats
+mkfs.vfat -F32 $21
+mkswap $22
+swapon $22
+mkfs.ext4 $23
 
 
 ##Mount partitons
-mount /dev/sda3 /mnt
+echo Mounting partitions
+mount $23 /mnt
 mkdir /mnt/boot
 mkdir /mnt/boot/efi
-mount /dev/sda1 /mnt/boot/efi
+mount $21 /mnt/boot/efi
 
 ##pacstrap
 ## Norway

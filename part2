@@ -32,7 +32,7 @@ chage -d 0 mar
 passwd mar
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
-su mar
+su - mar << EOF
 cd /home/mar
 mkdir git
 cd git
@@ -40,8 +40,10 @@ cd git
 git clone https://github.com/marnyg/dwm2.git
 git clone https://github.com/marnyg/st2.git
 git clone https://github.com/marnyg/dotfilesArch.git
-exit
+git clone https://github.com/marnyg/arch.git
+EOF
 
+cd /home/mar/git
 cd st2/
 make 
 make install

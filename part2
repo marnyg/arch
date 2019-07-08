@@ -14,7 +14,7 @@ echo "::1"      localhost >> /etc/hosts
 echo "127.0.1.1	MyArch.localdomain MyArch" >> /etc/hosts
 
 ###insatll bootloader/networkmanager
-pacman -S grub efibootmgr dosfstools os-prober mtools networkmanager &&
+pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools networkmanager feh neovim compton sudo git dmenu freetype2 libx11 libxft libxinerama libxext xorg-fonts-misc xorg ranger sxhkd xorg-xinit tree bash-completion chromium qutebrowser firefox mpv mpd newsboat htop mpc
 
 ###enable networkmanager
 systemctl enable NetworkManager &&
@@ -28,11 +28,11 @@ passwd &&
 
 ##make new user
 useradd -mg users -G wheel,storage,power -s /bin/bash mar
-passwd mar
 chage -d 0 mar
-pacman -S feh neovim compton sudo git 
+passwd mar
 echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
 
+su mar
 cd /home/mar
 mkdir git
 cd git
@@ -40,8 +40,8 @@ cd git
 git clone https://github.com/marnyg/dwm2.git
 git clone https://github.com/marnyg/st2.git
 git clone https://github.com/marnyg/dotfilesArch.git
+exit
 
-pacman -S dmenu freetype2 libx11 libxft libxinerama libxext xorg-fonts-misc xorg ranger sxhkd xorg-xinit
 cd st2/
 make 
 make install

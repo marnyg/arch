@@ -1,37 +1,50 @@
 #! /bin/bash
 
-### set timezone info
-ln -sf /usr/share/zoneinfo/Europe/Oslo /etc/localtime
-hwclock --systohc
-echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-locale-gen
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
+set_timezone_info(){
+    ln -sf /usr/share/zoneinfo/Europe/Oslo /etc/localtime
+    hwclock --systohc
+    echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+    locale-gen
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf
+}
 
-### set hostname/network info
-echo "MyArch" > /etc/hostname
-echo "127.0.0.1	localhost" > /etc/hosts
-echo "::1"      localhost >> /etc/hosts
-echo "127.0.1.1	MyArch.localdomain MyArch" >> /etc/hosts
+set_hostname_info(){
+    echo "127.0.0.1	localhost" > /etc/hosts
+    echo "MyArch" > /etc/hostname
+    echo "::1"      localhost >> /etc/hosts
+    echo "127.0.1.1	MyArch.localdomain MyArch" >> /etc/hosts
+}
+install_bootloader_efi(){
+    pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools 
+}
+install_personal_software(){
+    pacman --noconfirm -S - < ./pkglist.txt
+    rm /pkglist.txt
+}
 
-###insatll bootloader/networkmanager
-pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools networkmanager feh neovim compton sudo git dmenu freetype2 libx11 libxft libxinerama libxext xorg-fonts-misc xorg ranger sxhkd xorg-xinit tree bash-completion chromium qutebrowser firefox mpv mpd newsboat htop mpc
-
-###enable networkmanager
 systemctl enable NetworkManager &&
 
-##install grub (efi)
-##remember aspire boot reqires spesial folder in /boot
-grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck  &&
-grub-mkconfig -o /boot/grub/grub.cfg &&
+install_grub_efi(){
+    ##install grub (efi)
+    ##remember aspire boot reqires spesial folder in /boot
+    grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck  &&
+    grub-mkconfig -o /boot/grub/grub.cfg &&
+}
 
-passwd &&
+install_grub(){
+    grub-install --target=i386-pc /dev/sda&&
+    grub-mkconfig -o /boot/grub/grub.cfg &&
+}
 
 ##make new user
-useradd -mg users -G wheel,storage,power -s /bin/bash mar
-chage -d 0 mar
-passwd mar
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+create_main_user(){
+    useradd -mg users -G wheel,storage,power -s /bin/bash mar
+    chage -d 0 mar
+    passwd mar
+    echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+}
 
+configure_main_user(){
 su - mar << EOF
 cd /home/mar
 mkdir git
@@ -53,6 +66,16 @@ sudo make install
 cd ../dotfilesArch
 ./initScript
 EOF
+}
 
+set_timezone_info()
+set_hostname_info()
+install_bootloader_efi()
+install_personal_software()
+install_grub_efi()
+create_main_user()
+configure_main_user()
+rm /part2
+passwd 
 
 

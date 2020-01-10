@@ -9,15 +9,13 @@ check_for_disk_argument(){
 }
 
 check_if_disk_exists(){
-    if [ ! -b "$2" ]; then
-        echo $2 disk does not exit
+    if [ ! -b "$1" ]; then
+        echo $1 disk does not exit
         exit 1
     fi
 }
 
 partition_disk_10Gswap(){
-    echo $1
-    echo $2
 (
     echo g # Create a new empty partition table
     echo n # Add a new partition
@@ -37,37 +35,36 @@ partition_disk_10Gswap(){
     echo 1 # set type to efi partition 
 
     echo w # Write changes
-    ) | fdisk $2
+) | fdisk $1
 }
 
-check_for_disk_argument
-check_if_disk_exists
+format_partitions(){
+    echo creating file formats
+    mkfs.vfat -F32 $11
+    mkswap $12
+    swapon $12
+    mkfs.ext4 $13
+}
+mount_partitions(){
+    echo Mounting partitions
+    mount $13 /mnt
+    mkdir /mnt/boot
+    mkdir /mnt/boot/efi
+    mount $11 /mnt/boot/efi
+}
+pacstrap_on_mount(){
+    ## Norway
+    echo "Server = http://mirror.neuf.no/archlinux/\$repo/os/\$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
+    pacstrap /mnt base base-devel vim
+}
+
+INSTALL_DISK=$2
+check_for_disk_argument $1 $2
+check_if_disk_exists $INSTALL_DISK 
 timedatectl set-ntp true
-partition_disk_10Gswap $2
-
-###partition drive
-#
-
-###Format drive partittions
-#
-echo creating file formats
-mkfs.vfat -F32 $21
-mkswap $22
-swapon $22
-mkfs.ext4 $23
-
-
-##Mount partitons
-echo Mounting partitions
-mount $23 /mnt
-mkdir /mnt/boot
-mkdir /mnt/boot/efi
-mount $21 /mnt/boot/efi
-
-##pacstrap
-## Norway
-echo "Server = http://mirror.neuf.no/archlinux/\$repo/os/\$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
-pacstrap /mnt base base-devel vim
+partition_disk_10Gswap $INSTALL_DISK
+format_partitions $INSTALL_DISK
+mount_partitions $INSTALL_DISK
 
 ##GenfsTab
 genfstab -U /mnt >> /mnt/etc/fstab

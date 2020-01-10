@@ -64,14 +64,12 @@ timedatectl set-ntp true
 partition_disk_10Gswap $INSTALL_DISK
 format_partitions $INSTALL_DISK
 mount_partitions $INSTALL_DISK
-update_pacman_mirror()
+update_pacman_mirror
 
 #packstrap
 pacstrap /mnt base base-devel vim
-
 ##GenfsTab
 genfstab -U /mnt >> /mnt/etc/fstab
-
 ##copy script part 2 into /mnt
 cp part2 /mnt/part2
 

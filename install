@@ -52,10 +52,9 @@ mount_partitions(){
     mkdir /mnt/boot/efi
     mount $11 /mnt/boot/efi
 }
-pacstrap_on_mount(){
+update_pacman_mirror(){
     ## Norway
     echo "Server = http://mirror.neuf.no/archlinux/\$repo/os/\$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
-    pacstrap /mnt base base-devel vim
 }
 
 INSTALL_DISK=$2
@@ -65,6 +64,10 @@ timedatectl set-ntp true
 partition_disk_10Gswap $INSTALL_DISK
 format_partitions $INSTALL_DISK
 mount_partitions $INSTALL_DISK
+update_pacman_mirror()
+
+#packstrap
+pacstrap /mnt base base-devel vim
 
 ##GenfsTab
 genfstab -U /mnt >> /mnt/etc/fstab

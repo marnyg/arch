@@ -22,18 +22,18 @@ install_personal_software(){
     rm /pkglist.txt
 }
 
-systemctl enable NetworkManager &&
+systemctl enable NetworkManager
 
 install_grub_efi(){
     ##install grub (efi)
     ##remember aspire boot reqires spesial folder in /boot
-    grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck  &&
-    grub-mkconfig -o /boot/grub/grub.cfg &&
+    grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck  
+    grub-mkconfig -o /boot/grub/grub.cfg 
 }
 
 install_grub(){
-    grub-install --target=i386-pc /dev/sda&&
-    grub-mkconfig -o /boot/grub/grub.cfg &&
+    grub-install --target=i386-pc /dev/sda
+    grub-mkconfig -o /boot/grub/grub.cfg 
 }
 
 ##make new user

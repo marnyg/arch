@@ -68,13 +68,13 @@ cd ../dotfilesArch
 EOF
 }
 
-set_timezone_info()
-set_hostname_info()
-install_bootloader_efi()
-install_personal_software()
-install_grub_efi()
-create_main_user()
-configure_main_user()
+set_timezone_info
+set_hostname_info
+install_bootloader_efi
+install_personal_software
+install_grub
+create_main_user
+configure_main_user
 rm /part2
 passwd 
 

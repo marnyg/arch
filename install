@@ -111,9 +111,10 @@ if [ "$BOOT_TYPE" = "efi" ]; then
     mount_partitions_efi $INSTALL_DISK
 else
     echo "making MBR filesystem" 
-    partition_disk_MBR $INSTALL_DISK
-    format_partitions_MBR $INSTALL_DISK
-    mount_partitions_MBR $INSTALL_DISK
+    sfdisk $INSTALL_DISK < ./partitionLayouts/biosMBR
+    #partition_disk_MBR $INSTALL_DISK
+    #format_partitions_MBR $INSTALL_DISK
+    #mount_partitions_MBR $INSTALL_DISK
 fi;
 
 update_pacman_mirror

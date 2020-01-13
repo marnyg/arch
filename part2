@@ -20,6 +20,8 @@ install_bootloader_efi(){
 install_personal_software(){
     pacman --noconfirm -S - < ./pkglist.txt
     rm /pkglist.txt
+    chsh -s /bin/zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 }
 
 
@@ -70,8 +72,8 @@ EOF
 set_timezone_info
 set_hostname_info
 install_bootloader_efi
-systemctl enable NetworkManager
 install_personal_software
+systemctl enable NetworkManager
 install_grub
 create_main_user
 configure_main_user

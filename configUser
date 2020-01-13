@@ -1,0 +1,24 @@
+#! /bin/sh
+
+cd /home/mar
+mkdir git
+cd git
+
+git clone https://github.com/marnyg/dwm2.git
+git clone https://github.com/marnyg/st2.git
+git clone https://github.com/marnyg/dotfilesArch.git
+git clone https://github.com/marnyg/arch.git
+
+cd st2/
+make 
+sudo make install
+
+cd ../dwm2
+make 
+sudo make install
+
+chsh -s /bin/zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+
+cd ../dotfilesArch
+./initScript

@@ -1,41 +1,10 @@
 #! /bin/sh
 
-check_for_disk_argument(){
-    if [[ $1 != "--disk" && -z $2 ]]; then
-        echo which disk, use this format:
-        echo ./install --disk $2
-        exit 1
-    fi
-}
-
 check_if_disk_exists(){
     if [ ! -b "$1" ]; then
         echo $1 disk does not exit
         exit 1
     fi
-}
-
-partition_disk_efi(){
-(
-    echo g # Create a new empty partition table
-    echo n # Add a new partition
-    echo 1 # Partition number
-    echo   # First sector (Accept default: 1)
-    echo +512M # size of partition
-    echo n # Add a new partition
-    echo 2 # Partition number
-    echo   # First sector (Accept default: 1)
-    echo +10G # size of partition
-    echo n # Add a new partition
-    echo 3 # Partition number
-    echo   # First sector (Accept default: 1)
-    echo   # size of partition (Accept default: 1)
-    echo t # set type of partition 
-    echo 1 # select partition 1
-    echo 1 # set type to efi partition 
-
-    echo w # Write changes
-) | fdisk $1
 }
 
 format_partitions_efi(){
@@ -63,27 +32,6 @@ mount_partitions_MBR(){
     echo Mounting partitions
     mount $11 /mnt
 }
-partition_disk_MBR(){
-(
-    echo o # Create a new empty dos partition table
-    echo n # Add a new partition
-    echo p # Primary type
-    echo 1 # Partition number
-    echo   # First sector (Accept default: 1)
-    echo +10G # size of partition
-    echo a # set boot flag
-    echo n # Add a new partition
-    echo p # Primary type
-    echo 2 # Partition number
-    echo   # First sector (Accept default: 1)
-    echo   # Last sector (Accept default: 1)
-    echo t # set type of partition 
-    echo 2 # select partition 1
-    echo 82 # set type to efi partition 
-
-    echo w # Write changes
-) | fdisk $1
-}
 update_pacman_mirror(){
     ## Norway
     echo "Server = http://mirror.neuf.no/archlinux/\$repo/os/\$arch" | cat - /etc/pacman.d/mirrorlist > temp && mv temp /etc/pacman.d/mirrorlist
@@ -96,35 +44,43 @@ check_boot_type(){
         echo ""
     fi
 }
+prepare_new_system(){
+    cp part2 /mnt/part2
+    cp pkglist.txt /mnt/pkglist.txt
+    cp configUser /mnt/configUser
+    cat $1 >/mnt/passTMP
+}
 
-INSTALL_DISK=$2
 BOOT_TYPE=check_boot_type
-check_for_disk_argument $1 $2
+
+echo "chose password for system(root and mar user)"
+read PASS
+echo "which disk (/dev/sdX) !!!!the disk will be formated"
+read INSTALL_DISK
+
 check_if_disk_exists $INSTALL_DISK 
 timedatectl set-ntp true
 
 if [ "$BOOT_TYPE" = "efi" ]; then 
     echo "making efi filesystem" 
-    partition_disk_efi $INSTALL_DISK
+    sfdisk $INSTALL_DISK < ./partitionLayouts/efi
     format_partitions_efi $INSTALL_DISK
     mount_partitions_efi $INSTALL_DISK
 else
     echo "making MBR filesystem" 
     sfdisk $INSTALL_DISK < ./partitionLayouts/biosMBR
-    #partition_disk_MBR $INSTALL_DISK
     format_partitions_MBR $INSTALL_DISK
     mount_partitions_MBR $INSTALL_DISK
 fi;
 
 update_pacman_mirror
+prepare_new_system $PASS
 
 #packstrap
 pacstrap /mnt base base-devel linux linux-firmware vim
 ##GenfsTab
 genfstab -U /mnt >> /mnt/etc/fstab
-##copy script part 2 into /mnt
-cp part2 /mnt/part2
-cp pkglist.txt /mnt/pkglist.txt
 
 arch-chroot /mnt ./part2
+reboot
 

@@ -51,6 +51,7 @@ mount_partitions_efi(){
     mkdir /mnt/boot
     mkdir /mnt/boot/efi
     mount $11 /mnt/boot/efi
+    touch /mnt/efi
 }
 format_partitions_MBR(){
     echo creating file formats
@@ -123,7 +124,6 @@ genfstab -U /mnt >> /mnt/etc/fstab
 ##copy script part 2 into /mnt
 cp part2 /mnt/part2
 cp pkglist.txt /mnt/pkglist.txt
-touch /mnt/efi
 
 arch-chroot /mnt ./part2
 

@@ -61,7 +61,7 @@ format_partitions_MBR(){
 }
 mount_partitions_MBR(){
     echo Mounting partitions
-    mount $13 /mnt
+    mount $11 /mnt
 }
 partition_disk_MBR(){
 (

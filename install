@@ -67,14 +67,14 @@ partition_disk_MBR(){
 (
     echo o # Create a new empty dos partition table
     echo n # Add a new partition
-    echo 1 # Partition number
     echo p # Primary type
+    echo 1 # Partition number
     echo   # First sector (Accept default: 1)
     echo +10G # size of partition
     echo a # set boot flag
     echo n # Add a new partition
-    echo 2 # Partition number
     echo p # Primary type
+    echo 2 # Partition number
     echo   # First sector (Accept default: 1)
     echo   # Last sector (Accept default: 1)
     echo t # set type of partition 
@@ -102,6 +102,7 @@ BOOT_TYPE=check_boot_type
 check_for_disk_argument $1 $2
 check_if_disk_exists $INSTALL_DISK 
 timedatectl set-ntp true
+wipefs -a INSTALL_DISK
 
 if [ "$BOOT_TYPE" = "efi" ]; then 
     echo "making efi filesystem" 

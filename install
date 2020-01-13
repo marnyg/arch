@@ -119,7 +119,7 @@ fi;
 update_pacman_mirror
 
 #packstrap
-pacstrap /mnt base base-devel vim
+pacstrap /mnt base base-devel linux linux-firmware vim
 ##GenfsTab
 genfstab -U /mnt >> /mnt/etc/fstab
 ##copy script part 2 into /mnt

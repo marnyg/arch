@@ -17,7 +17,6 @@ cd ../dwm2
 make 
 cat /passTMP | sudo -S make install
 
-chsh -s /bin/zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
 cd ../dotfilesArch

@@ -38,6 +38,8 @@ install_grub(){
 create_main_user(){
     useradd -mg users -p $1 -G wheel,storage,power -s /bin/bash mar
     chage -d 0 mar
+    echo mar:$1 | chpasswd
+    chsh -s /bin/zsh mar
     echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
     sudo -u mar /configUser
 }
@@ -57,6 +59,7 @@ install_personal_software
 systemctl enable NetworkManager
 install_grub
 create_main_user $PASS
-echo "$PASS" | passwd mar --stdin 
+echo mar:$PASS | chpasswd
+cleanup
 
 

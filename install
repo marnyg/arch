@@ -102,7 +102,7 @@ BOOT_TYPE=check_boot_type
 check_for_disk_argument $1 $2
 check_if_disk_exists $INSTALL_DISK 
 timedatectl set-ntp true
-wipefs -a INSTALL_DISK
+wipefs -a $INSTALL_DISK
 
 if [ "$BOOT_TYPE" = "efi" ]; then 
     echo "making efi filesystem" 

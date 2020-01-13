@@ -48,6 +48,7 @@ prepare_new_system(){
     cp part2 /mnt/part2
     cp pkglist.txt /mnt/pkglist.txt
     cp configUser /mnt/configUser
+    chmod 777 /mnt/configUser
     echo $1 > /mnt/passTMP
 }
 

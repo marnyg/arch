@@ -22,7 +22,6 @@ install_personal_software(){
     rm /pkglist.txt
 }
 
-systemctl enable NetworkManager
 
 install_grub_efi(){
     ##install grub (efi)
@@ -71,6 +70,7 @@ EOF
 set_timezone_info
 set_hostname_info
 install_bootloader_efi
+systemctl enable NetworkManager
 install_personal_software
 install_grub
 create_main_user

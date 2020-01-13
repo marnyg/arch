@@ -25,5 +25,6 @@ mpd
 newsboat
 htop
 mpc
-
-
+openssh
+zsh
+nextcloud-client

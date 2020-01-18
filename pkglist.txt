@@ -29,3 +29,5 @@ openssh
 zsh
 nextcloud-client
 unclutter
+seahorse
+arandr

@@ -28,3 +28,4 @@ mpc
 openssh
 zsh
 nextcloud-client
+unclutter

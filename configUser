@@ -1,6 +1,8 @@
 #! /bin/sh
 
-cd /home/mar
+cat /passTMP
+
+cd $HOME
 mkdir git
 cd git
 
@@ -11,11 +13,11 @@ git clone https://github.com/marnyg/arch.git
 
 cd st2/
 make 
-cat /passTMP | sudo -S make install
+#cat /passTMP | sudo -S make install
 
 cd ../dwm2
 make 
-cat /passTMP | sudo -S make install
+#cat /passTMP | sudo -S make install
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 

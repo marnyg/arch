@@ -47,7 +47,7 @@ create_main_user(){
     #chsh -s /bin/zsh mar
     echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
     echo befor configUser
-    sudo -u mar ./configUser
+    #sudo -u mar ./configUser
     echo after configUser
 }
 

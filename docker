@@ -41,12 +41,14 @@ install_grub(){
 create_main_user(){
     pass=`cat /passTMP`
     echo password: $pass
-    useradd -mg users -p $pass -G wheel,storage,power -s /bin/bash mar
+    useradd -mg users -p $pass -G wheel,storage,power -s /bin/zsh mar
     chage -d 0 mar
     echo mar:$pass | chpasswd
-    chsh -s /bin/zsh mar
+    #chsh -s /bin/zsh mar
     echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+    echo befor configUser
     sudo -u mar ./configUser
+    echo after configUser
 }
 
 cleanup(){

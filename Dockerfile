@@ -8,7 +8,8 @@ RUN echo "123" > /passTMP
 RUN ls arch
 RUN cd arch && git checkout docker
 RUN source /arch/docker && set_timezone_info && set_hostname_info
-RUN source /arch/docker && cd arch && install_personal_software
+RUN source /arch/docker && cd arch && install_personal_software_1
+RUN source /arch/docker && cd arch && install_personal_software_2
 RUN source /arch/docker && create_main_user
 RUN source /arch/docker && start_gnome_keyring_at_login
 

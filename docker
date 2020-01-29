@@ -17,8 +17,11 @@ set_hostname_info(){
 install_bootloader_efi(){
     pacman --noconfirm -S grub efibootmgr dosfstools os-prober mtools 
 }
-install_personal_software(){
+install_personal_software_1(){
     pacman --noconfirm -S - < ./pkglist.txt
+}
+install_personal_software_2(){
+    pacman --noconfirm -S - < ./baseApps
 }
 
 

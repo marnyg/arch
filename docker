@@ -39,6 +39,9 @@ install_grub(){
 
 ##make new user
 create_main_user(){
+    $1=`cat /passTMP`
+    cat /passTMP
+    echo $1
     useradd -mg users -p $1 -G wheel,storage,power -s /bin/bash mar
     chage -d 0 mar
     echo mar:$1 | chpasswd

@@ -46,7 +46,7 @@ create_main_user(){
     echo mar:$pass | chpasswd
     chsh -s /bin/zsh mar
     echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-    sudo -u mar /configUser
+    sudo -u mar ./configUser
 }
 
 cleanup(){

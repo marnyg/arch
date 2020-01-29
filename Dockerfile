@@ -10,7 +10,7 @@ RUN cd arch && git checkout docker
 RUN source /arch/docker && set_timezone_info && set_hostname_info
 RUN source /arch/docker && cd arch && install_personal_software_2
 RUN source /arch/docker && cd arch && install_personal_software_1
-run ls
+run ls -l
 RUN cd arch && git pull
 RUN source /arch/docker && create_main_user
 ###run useradd -mg users -p 123 -G wheel,storage,power -s /bin/bash mar

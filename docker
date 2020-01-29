@@ -39,7 +39,7 @@ install_grub(){
 
 ##make new user
 create_main_user(){
-    $pass=`cat /passTMP`
+    pass=`cat /passTMP`
     cat /passTMP
     echo $pass
     useradd -mg users -p $pass -G wheel,storage,power -s /bin/bash mar

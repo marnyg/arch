@@ -8,6 +8,14 @@ set_timezone_info(){
     echo "LANG=en_US.UTF-8" > /etc/locale.conf
 }
 
+check_boot_type(){
+    if [ -e /sys/firmware/efi/efivars ];then
+        echo "efi"
+    else
+        echo ""
+    fi
+}
+
 set_hostname_info(){
     echo "127.0.0.1	localhost" > /etc/hosts
     echo "MyArch" > /etc/hostname
@@ -58,10 +66,16 @@ start_gnome_keyring_at_login(){
 PASS=`cat /passTMP`
 set_timezone_info
 set_hostname_info
-install_bootloader_efi
+
+if [ "$BOOT_TYPE" = "efi" ]; then 
+    install_bootloader_efi
+    install_grub_efi
+else
+    install_grub
+fi;
+
 install_personal_software
 systemctl enable NetworkManager
-install_grub
 create_main_user $PASS
 echo mar:$PASS | chpasswd
 start_gnome_keyring_at_login

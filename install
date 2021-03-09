@@ -24,13 +24,13 @@ mount_partitions_efi(){
 }
 format_partitions_MBR(){
     echo creating file formats
-    mkfs.ext4 $11
-    mkswap $12
-    swapon $12
+    mkfs.ext4 $12
+    mkswap $13
+    swapon $13
 }
 mount_partitions_MBR(){
     echo Mounting partitions
-    mount $11 /mnt
+    mount $12 /mnt
 }
 update_pacman_mirror(){
     ## Norway
@@ -62,17 +62,9 @@ read INSTALL_DISK
 check_if_disk_exists $INSTALL_DISK 
 timedatectl set-ntp true
 
-if [ "$BOOT_TYPE" = "efi" ]; then 
-    echo "making efi filesystem" 
-    sfdisk $INSTALL_DISK < ./partitionLayouts/efi
-    format_partitions_efi $INSTALL_DISK
-    mount_partitions_efi $INSTALL_DISK
-else
-    echo "making MBR filesystem" 
-    sfdisk $INSTALL_DISK < ./partitionLayouts/biosMBR
-    format_partitions_MBR $INSTALL_DISK
-    mount_partitions_MBR $INSTALL_DISK
-fi;
+echo "making MBR filesystem" 
+format_partitions_MBR $INSTALL_DISK
+mount_partitions_MBR $INSTALL_DISK
 
 update_pacman_mirror
 prepare_new_system $PASS
@@ -83,5 +75,4 @@ pacstrap /mnt base base-devel linux linux-firmware vim
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt ./part2
-reboot
 

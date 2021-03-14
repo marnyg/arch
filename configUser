@@ -1,23 +1,10 @@
 #! /bin/sh
 
 cd /home/mar
-mkdir git
-cd git
+mkdir .local
+mkdir .local/src
 
-git clone https://github.com/marnyg/dwm2.git
-git clone https://github.com/marnyg/st2.git
-git clone https://github.com/marnyg/dotfilesArch.git
-git clone https://github.com/marnyg/arch.git
+git clone https://aur.archlinux.org/yay.git /home/mar/.local/src
+cd yay
+makepkg -si
 
-cd st2/
-make 
-cat /passTMP | sudo -S make install
-
-cd ../dwm2
-make 
-cat /passTMP | sudo -S make install
-
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-
-cd ../dotfilesArch
-./initScript

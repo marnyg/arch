@@ -5,6 +5,6 @@ mkdir .local
 mkdir .local/src
 
 git clone https://aur.archlinux.org/yay.git /home/mar/.local/src
-cd yay
-makepkg -si
+#cd yay
+#makepkg -si
 

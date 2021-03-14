@@ -10,9 +10,9 @@ set_timezone_info(){
 
 check_boot_type(){
     if [ -e /sys/firmware/efi/efivars ];then
-        echo "efi"
+        BOOT_TYPE="efi"
     else
-        echo ""
+        BOOT_TYPE=""
     fi
 }
 
@@ -64,7 +64,7 @@ start_gnome_keyring_at_login(){
 }
 
 PASS=`cat /passTMP`
-BOOT_TYPE=check_boot_type
+check_boot_type
 set_timezone_info
 set_hostname_info
 

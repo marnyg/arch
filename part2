@@ -64,6 +64,7 @@ start_gnome_keyring_at_login(){
 }
 
 PASS=`cat /passTMP`
+BOOT_TYPE=check_boot_type
 set_timezone_info
 set_hostname_info
 
@@ -76,9 +77,10 @@ fi;
 
 install_personal_software
 systemctl enable NetworkManager
-create_main_user $PASS
-echo mar:$PASS | chpasswd
-start_gnome_keyring_at_login
+git clone https://github.com/marnyg/AnsibleDesktopSetupManjaro.git /root/ansible
+#create_main_user $PASS
+#echo mar:$PASS | chpasswd
+#start_gnome_keyring_at_login
 cleanup
 
 

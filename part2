@@ -80,11 +80,12 @@ systemctl enable NetworkManager
 git clone https://github.com/marnyg/AnsibleDesktopSetupManjaro.git /root/ansible
 #create_main_user $PASS
 #echo mar:$PASS | chpasswd
-pacman -S ansible
+echo root:$PASS | chpasswd
+pacman -S ansible --noconfirm 
 cd /root/ansible
 ansible-galaxy install kewlfft.aur
-make ansible-local
-echo root:$PASS | chpasswd
+#make ansible-local
+
 
 #start_gnome_keyring_at_login
 cleanup

@@ -39,9 +39,9 @@ update_pacman_mirror(){
 
 check_boot_type(){
     if [ -e /sys/firmware/efi/efivars ];then
-        echo "efi"
+        BOOT_TYPE="efi"
     else
-        echo ""
+        BOOT_TYPE=""
     fi
 }
 prepare_new_system(){
@@ -52,7 +52,7 @@ prepare_new_system(){
     echo $1 > /mnt/passTMP
 }
 
-BOOT_TYPE=check_boot_type
+check_boot_type
 
 echo "chose password for system(root and mar user)"
 read PASS

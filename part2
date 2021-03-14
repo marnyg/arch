@@ -52,6 +52,7 @@ create_main_user(){
     sudo -u mar /configUser
 }
 
+
 cleanup(){
     rm /part2
     rm /pkglist.txt
@@ -78,8 +79,8 @@ fi;
 install_personal_software
 systemctl enable NetworkManager
 git clone https://github.com/marnyg/AnsibleDesktopSetupManjaro.git /root/ansible
-#create_main_user $PASS
-#echo mar:$PASS | chpasswd
+create_main_user $PASS
+echo mar:$PASS | chpasswd
 echo root:$PASS | chpasswd
 pacman -S ansible --noconfirm 
 cd /root/ansible

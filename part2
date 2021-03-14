@@ -67,7 +67,12 @@ PASS=`cat /passTMP`
 set_timezone_info
 set_hostname_info
 
-install_grub
+if [ "$BOOT_TYPE" = "efi" ]; then 
+    install_bootloader_efi
+    install_grub_efi
+else
+    install_grub
+fi;
 
 install_personal_software
 systemctl enable NetworkManager

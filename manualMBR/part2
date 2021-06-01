@@ -28,10 +28,10 @@ install_grub(){
 create_main_user(){
     useradd -mg users -p $1 -G wheel,storage,power -s /bin/bash mar
     chage -d 0 mar
+    sudo -u mar ./configUser
     echo mar:$1 | chpasswd
     chsh -s /bin/zsh mar
     echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-    sudo -u mar ./configUser
 }
 
 

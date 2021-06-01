@@ -28,9 +28,9 @@ create_main_user(){
     useradd -mg users -p $1 -G wheel,storage,power -s /bin/bash mar
     chage -d 0 mar
     echo mar:$1 | chpasswd
-    chsh -s /bin/zsh mar
+    # chsh -s /bin/zsh mar
     echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
-    sudo -u mar /configUser
+    sudo -u mar ./configUser
 }
 
 
@@ -46,7 +46,7 @@ set_timezone_info
 set_hostname_info
 install_grub
 
-install_personal_software
+# install_personal_software
 systemctl enable NetworkManager
 git clone https://github.com/marnyg/AnsibleDesktopSetupManjaro.git /root/ansible
 create_main_user $PASS

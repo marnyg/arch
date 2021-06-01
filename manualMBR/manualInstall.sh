@@ -13,5 +13,7 @@ pacstrap /mnt base base-devel linux linux-firmware vim
 ##GenfsTab
 genfstab -U /mnt >> /mnt/etc/fstab
 cp part2 /mnt/root/part2
+cp configUser /mnt/root/configUser
+cp ../pkglist.txt /mnt/root/pkglist.txt
 
 arch-chroot /mnt
